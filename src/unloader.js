@@ -7,4 +7,4 @@ if (leonardoElm && leonardoElm.parentNode && leonardoElm.parentNode.style) {
   leonardoElm.parentNode.style.display = 'none';
 }
 
-window.location = 'javascript:console.log(window.Leonardo.toggleActivateAll(false))';
+window.location = 'javascript:window.Leonardo.toggleActivateAll(false)';
