@@ -1,10 +1,6 @@
-console.log('Inject');
 
-function inject() {
-  var link = 'http://outbrain.github.io/Leonardo/dist/leonardo.js';
-  var script = document.createElement('script');
-  script.innerHTML = link;
-  document.head.appendChild(script);
-}
-
-// inject();
+chrome.browserAction.onClicked.addListener(function (tab) {
+  chrome.tabs.executeScript(null, {
+    'file': 'src/loader.js'
+  });
+});
