@@ -1,28 +1,39 @@
-var leoEnabled = !!localStorage.getItem('leonardo-enabled');
+// Listen on messages from background
+chrome.runtime.onMessage.addListener(
+  function (request, sender, sendResponse) {
+    if (request.message == 'toggleEnabled') {
+      var enabled = toggleEnabled();
+      sendResponse({status: 'ok', enabled: enabled});
+      return;
+    }
+    if (request.message == 'isLeoEnabled') {
+      sendResponse({status: 'ok', enabled: isEnabled()});
+      return;
+    }
+  });
 
-if (leoEnabled) {
-  chrome.runtime.sendMessage({message: 'showLeo'});
+
+function isEnabled() {
+  var enabled = localStorage.getItem('leonardo-enabled');
+  if (enabled === null) {
+    return false;
+  }
+  return JSON.parse(enabled);
 }
 
-// Listen on messages from background
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  switch (request.message) {
-    case 'toggleEnabled':
-      sendResponse({status: 'ok', enabled: toggleEnabled()});
-      break;
-    case 'isLeoEnabled':
-      sendResponse({status: 'ok', enabled: leoEnabled});
-      break;
-  }
-});
-
-
 function setEnabled(enabled) {
-  leoEnabled = enabled;
   localStorage.setItem('leonardo-enabled', enabled);
-  return enabled;
 }
 
 function toggleEnabled() {
-  return setEnabled(leoEnabled);
+  var newIcon;
+
+  setEnabled(!isEnabled());
+
+  return isEnabled();
+}
+
+if (isEnabled()) {
+  chrome.runtime.sendMessage({message: 'showLeo'}, function (response) {
+  });
 }
