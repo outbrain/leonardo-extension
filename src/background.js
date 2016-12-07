@@ -1,20 +1,17 @@
 var enabled = false;
 
-function toggleEnabled() {
-  var newIcon;
-
-  if (enabled) {
-    console.log('Disabling Leo');
-    newIcon = 'icon-off.png';
-    chrome.tabs.executeScript(null, {'file': 'src/unloader.js'});
-  } else {
+function showLeonardo(status) {
+  if (status) {
     chrome.tabs.executeScript(null, {'file': 'src/loader.js'});
-    console.log('Enabling Leo');
-    newIcon = 'icon.png';
+  } else {
+    chrome.tabs.executeScript(null, {'file': 'src/unloader.js'});
   }
-  enabled = !enabled;
+}
 
-  chrome.browserAction.setIcon({path: newIcon});
+function toggleEnabled() {
+  enabled = !enabled;
+  showLeonardo(enabled);
+  chrome.browserAction.setIcon({path: enabled ? 'icon.png' : 'icon-off.png'});
 }
 
 chrome.browserAction.onClicked.addListener(toggleEnabled);
