@@ -1,19 +1,36 @@
-var enabled = false;
-
-function showLeonardo(status) {
-  if (status) {
+function showLeo() {
+    console.log('Enabling Leo');
     chrome.tabs.executeScript(null, {'file': 'src/loader.js'});
-  } else {
+    chrome.browserAction.setIcon({path:  'icon.png'});
+}
+
+function hideLeo() {
+    console.log('Disabling Leo');
     chrome.tabs.executeScript(null, {'file': 'src/unloader.js'});
+    chrome.browserAction.setIcon({path: 'icon-off.png'});
+}
+
+
+function invokeToggle() {
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, {message: "toggleEnabled"}, function(response) {
+            console.log(response.status);
+
+            if (response.enabled) {
+                showLeo();
+            } else {
+                hideLeo();
+            }
+        });
+    });
+}
+
+chrome.browserAction.onClicked.addListener(invokeToggle);
+
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+    if (request.message == 'showLeo') {
+        showLeo();
+    }
   }
-}
-
-function toggleEnabled() {
-  enabled = !enabled;
-  showLeonardo(enabled);
-  chrome.browserAction.setIcon({path: enabled ? 'icon.png' : 'icon-off.png'});
-}
-
-chrome.browserAction.onClicked.addListener(toggleEnabled);
-
-// inject();
+);
