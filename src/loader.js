@@ -10,7 +10,6 @@ function inject() {
   document.body.appendChild(script);
 }
 
-
 var leonardoElm = document.querySelector('.leonardo-launcher');
 if (leonardoElm && leonardoElm.parentNode && leonardoElm.parentNode.style) {
   leonardoElm.parentNode.style.display = 'block';
