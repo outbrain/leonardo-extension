@@ -13,6 +13,7 @@ function inject() {
 var leonardoElm = document.querySelector('.leonardo-launcher');
 if (leonardoElm && leonardoElm.parentNode && leonardoElm.parentNode.style) {
   leonardoElm.parentNode.style.display = 'block';
+  window.location = 'javascript:console.log(window.Leonardo.toggleActivateAll(true))';
 } else {
   inject();
 }
