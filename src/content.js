@@ -1,3 +1,5 @@
+console.log('Leonardo extension');
+
 // Listen on messages from background
 chrome.runtime.onMessage.addListener(
   function (request, sender, sendResponse) {

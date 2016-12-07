@@ -1,3 +1,4 @@
+console.log('Loaded!');
 
 function inject() {
   var protocol = window.location.protocol.startsWith('https') ? 'https' : 'http';

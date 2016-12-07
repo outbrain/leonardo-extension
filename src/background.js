@@ -1,9 +1,11 @@
 function showLeo() {
+  console.log('Enabling Leo');
   chrome.tabs.executeScript(null, {'file': 'src/loader.js'});
   chrome.browserAction.setIcon({path: 'icons/icon.png'});
 }
 
 function hideLeo() {
+  console.log('Disabling Leo');
   chrome.tabs.executeScript(null, {'file': 'src/unloader.js'});
   chrome.browserAction.setIcon({path: 'icons/icon-off.png'});
 }
@@ -12,7 +14,13 @@ function hideLeo() {
 function invokeToggle() {
   chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
     chrome.tabs.sendMessage(tabs[0].id, {message: "toggleEnabled"}, function (response) {
-      response.enabled ? showLeo() : hideLeo();
+      console.log(response.status);
+
+      if (response.enabled) {
+        showLeo();
+      } else {
+        hideLeo();
+      }
     });
   });
 }
