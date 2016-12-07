@@ -3,9 +3,14 @@ console.log("Leonardo extension");
 // Listen on messages from background
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-        if (request.func == "toggleEnabled") {
+        if (request.message == "toggleEnabled") {
             var enabled = toggleEnabled();
             sendResponse({status: "ok", enabled: enabled});
+            return;
+        }
+        if (request.message == 'isLeoEnabled') {
+            sendResponse({status: "ok", enabled: isEnabled()});
+            return;
         }
     });
 
@@ -28,4 +33,9 @@ function toggleEnabled() {
     setEnabled(!isEnabled());
 
     return isEnabled();
+}
+
+if (isEnabled()) {
+    chrome.runtime.sendMessage({message: "showLeo"}, function(response) {
+    });
 }
