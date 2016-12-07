@@ -1,6 +1,11 @@
 
-var elm = document.getElementById('_leonardoLoaderScript');
+var scriptTag = document.getElementById('_leonardoLoaderScript');
+var leonardoElm = document.querySelector('.leonardo-launcher');
 
-if (elm) {
-  elm.remove();
+if (scriptTag) {
+  scriptTag.remove();
+}
+
+if (leonardoElm && leonardoElm.parentNode) {
+  leonardoElm.parentNode.remove();
 }
